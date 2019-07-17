@@ -1,0 +1,89 @@
+1. error migrate : 
+[Illuminate\Database\QueryException] SQLSTATE[42000]: Syntax error or access violation: 1071 Specified key was too long; max key length is 767 bytes (SQL: alter tabl e users add unique users_email_unique(email))
+
+[PDOException] SQLSTATE[42000]: Syntax error or access violation: 1071 Specified key was too long; max key length is 767 bytes
+duplicate table too.
+
+answer :
+a. sure database coloum ( blank database )
+b. Add following code to AppServiceProvider.php (/app/Providers/AppServiceProvider.php)
+   use Illuminate\Support\Facades\Schema; //NEW: Import Schema
+
+    function boot()
+    {
+    	Schema::defaultStringLength(191); //NEW: Increase StringLength
+    }
+
+
+
+2. error connection sql :
+error access denied for user 'root'@'localhost' (using password yes)
+
+answer :
+a. DB_HOST=127.0.0.1 (before) 
+   DB_HOST=localhost (after) 	
+b. restart laravel server
+
+info list
+3. for print with json 
+   in controller store => return $request
+
+4. for tools validate and info , success after entry datas
+   a. composer require brian2694/laravel-toastr
+   b. php artisan vendor:publish
+   c. which one array for class facades need
+
+
+5. Error event is not define button onClick sweetalert on mozilla but still run on chrome
+   a. delete event.preventDefault(); in js script
+
+
+
+6. Error image "Intervention \ Image \ Exception \ NotSupportedException Encoding format (tmp) is not supported.
+   a. replace the line $categoryImage = Image::make($image)->resize(1600,479)->save(); 
+      with 
+      $categoryImage = Image::make($image)->resize(1600,479)->stream();
+
+
+7. Error Notofication to mailtrap.io
+   a. Swift_TransportException (530) Expected response code 250 but got code "530", with message "530 5.7.1 Authentication required"
+	
+answer
+   a. For using Gmail account as SMTP you must turn on less secure app settings in your Gmail account here https://myaccount.google.com/lesssecureapps 
+      Then do
+      php artisan config:
+      clear and try to send the email.
+
+8. Error Toastr notif js not show
+  a. change old link top layout
+     https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css
+
+  b. change old link foot layout 
+     https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js
+
+9. Error Notify post approve to subscriber
+    production.ERROR: exception 'Swift_TransportException' with message 'Expected response code 354 but got code "550", 
+    with message "550 5.7.0 Requested action not taken: too many emails per second "' 
+    in /home/laravel/app/vendor/swiftmailer/swiftmailer/lib/classes/Swift/Transport/AbstractSmtpTransport.php:383 
+    Stack trace: #0/home/laravel/app/vendor/swiftmailer/swiftmailer/lib/classes/Swift/Transport/AbstractSmtpTransport.php(281):
+
+answer :
+   a. paid plan your mailtrap.io
+      cause free paid can receive more then 3 emails per sending
+or 
+  b. left 1 subscriber for sending email.
+
+10. Error Property [comments] does not exist on this collection instance. 
+(View: C:\Users\ASUS\Documents\faisal\Explore\blog-indri\blog\resources\views\author\comments.blade.php)
+
+answer : add foreach parent post
+	1. before
+	@foreach($posts->comments as $key=>$comment)
+	@endforeach
+	
+	after
+	@foreach($posts as $key=>$post)
+           @foreach($post->comments as $comment)
+	   @endforeach
+	@endforeach
+	
